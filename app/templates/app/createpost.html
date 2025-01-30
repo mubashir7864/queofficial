@@ -1,0 +1,16 @@
+{% extends "app/home.html" %}
+{% load static %}
+{% block title %}CreatePost{% endblock title %}
+{% block herocontent %}
+<form action="" method="post" class="border border-slate-400 p-5 rounded-md" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="{{ form.title.id_for_label }}">Title</label>
+    {{ form.title }}
+    <label for="{{ form.description.id_for_label }}">Description</label>
+    {{ form.description }}
+    <label for="{{ form.image.id_for_label }}">Image</label>
+    {{ form.image }}
+    <button class="text-white font-semibold rounded-md p-2 px-6 mt-2 bg-secondary hover:translate-y-0.5 hover:border-0" type="submit">Post</button>
+</form>
+
+{% endblock herocontent %}

@@ -10,9 +10,16 @@
                 <button class=" text-white font-semibold rounded-md   p-2 hover:bg-secondary hover:text-white hover:border-0 "> Search</button>
             </form>
         </div>
+        {% if user.is_authenticated %}
         <button  class="text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0">
-            Login
+          <a href="/logout">Logout</a>  
         </button>
+        {% else %}
+        <button  class="text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0">
+           <a href="/login"> Login</a>
+        </button>
+        {% endif %}
+       
     </nav>
 
     <!-- Section div -->
@@ -62,12 +69,18 @@
                <div class="flex flex-col gap-3 justify-center items-center">
                     <div class="flex justify-around gap-2 t p-2 rounded-md px-6 font-semibold w-60 h-20 items-center" >
                         <img src="" alt="user image " class="rounded-full border-2 border-primary p-2 items-center">
+                        {% if user.is_authenticated %}
+                        <div>
+                            <h2 class="font-bold underline" >  {{user.username}}</h2>
+                        </div>
+                        {% else %}
                         <div>
                             <h2 class="font-bold" >Username</h2>
                         </div>
+                        {% endif %}
                     </div>
                     <button class="text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60" >Update Profile</button>
-                    <button class="text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60 "  >Create Post</button>
+                    <button class="text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60 "  > <a href="/createpost">Create Post</a></button>
                     <button class= "text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60 "    >My posts</button>
                     <button class="text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60 "  >Logout</button>
                 </div>

@@ -1,14 +1,21 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from .forms import Registrationform 
+from .models import Postform
+from .forms import Registrationform , Post
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout,authenticate
 
 
 # Create your views here.
 
-
+@login_required(login_url='/login')
 def home(request):
-    return render(request, 'app/home.html', {})
+    posts = Postform.objects.all()
+    return render(request, 'app/home.html', {'posts': posts})
+
+
+
+# sign up view
 
 def signup(request):
     if request.method == 'POST':
@@ -24,3 +31,21 @@ def signup(request):
         form = Registrationform()
 
     return render(request, 'registration/signup.html', {'form': form})
+
+
+#create post view
+
+@login_required(login_url='/login')
+def createpost(request):
+    if request.method == 'POST':
+        form = Post(request.POST, request.FILES)
+        if form.is_valid():
+           post = form.save(commit=False)
+           post.author = request.user 
+           post.save()
+           return redirect('/home')
+    else:
+        form = Post()
+    
+    return render(request, 'app/createpost.html', {'form': form})
+

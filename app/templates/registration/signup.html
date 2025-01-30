@@ -1,0 +1,49 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block title %}Signup Page{% endblock title %}
+
+
+{% block content %}
+<section class="flex items-center justify-center mt-auto bg-primary h-screen p-8">
+    <div class="flex flex-col justify-center items-center bg-begg h-auto px-14 py-6 border-2 border-white rounded-2xl">
+        <h1 class="py-4 font-extrabold text-primary text-lg">sign Up</h1>
+        <form action="" method="post" class=" border border-slate-400 p-8 rounded-md" >
+            {% csrf_token %}
+            <label for=""  class="block" >username</label>
+            {{form.username}}
+            {{ form.first_name.errors }}
+            <label for=""  class="block" >first_name</label>
+            {{form.first_name}}
+            {{ form.first_name.errors }}
+            <label class="block" for="">last_name</label>
+            {{form.last_name}}
+            {{ form.last_name.errors }}
+            <label for=""  class="block" >Email</label>
+            {{form.email}}
+            {{ form.email.errors }}
+            <label class="block" for="">Password</label>
+            {{form.password1}}
+            {{ form.password1.errors }}
+            <label class="block" for="">Confirm Password</label>
+            {{form.password2}}
+            {{ form.password2.errors }}
+            <button class="border px-6 py-4 rounded-md font-bold h-12 border-white bg-secondary text-white flex mt-2 justify-center items-center  h-8 hover:translate-y-1 p-4" type="submit">Register</button>
+            {% if form.errors %}
+        <div class="text-red-500">
+            <p>There were errors in your submission:</p>
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    <li>{{ field }}: {{ errors|join:", " }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        </form>
+        <p class="mt-2 underline"  >Already Registered, Login </p>
+        <button class="border rounded-md font-bold  flex  mt-4 px-6 py-4 h-12 justify-center items-center  bg-secondary text-white  h-8 hover:translate-y-1 " type="submit"><a href="{% url 'login'%}">Login</a></button>
+
+    </div>
+</section>
+
+
+{% endblock content %}

@@ -1,0 +1,24 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block title %}Login Page{% endblock title %}
+
+{% block content %}
+<section class="h-screen flex items-center justify-center mt-auto bg-primary p-8">
+    <div class="flex flex-col justify-center items-center bg-begg h-96 px-10 p-4 py-6 border-2 border-white rounded-lg">
+        <h1 class="py-4 font-extrabold text-primary text-lg">Login</h1>
+        <form action="" method="post" class=" border border-slate-400 p-5 rounded-md" >
+            {% csrf_token %}
+            <label for=""  class="block" >username</label>
+            <input class="block" type="text" name="username" id="username">
+            <label class="block" for="">Password</label>
+            <input class="block" type="password" name="password" id="password">
+            <button class="text-white font-semibold rounded-md  p-2 px-6 mt-2  bg-secondary hover:translate-y-0.5 hover:border-0"type="submit">Login</button>
+        </form>
+        <p class="mt-2 underline"  >Dont have a account Register </p>
+        <button class="text-white font-semibold rounded-md  p-2 px-6 mt-3  bg-secondary hover:translate-y-0.5 hover:border-0" type="submit"><a href="{% url 'signup' %}">Register</a></button>
+
+    </div>
+</section>
+
+
+{% endblock content %}

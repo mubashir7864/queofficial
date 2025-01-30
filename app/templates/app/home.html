@@ -1,0 +1,88 @@
+{% extends "app/base.html" %}
+{% block title %}user Page{% endblock title %}
+{% block content %}
+<div  class="h-full" >
+    <nav class="flex flex-row justify-around items-center bg-primary p-2" >
+        <h4 class="text-white font-bold  border-2 border-primary p-4 " >qUE...</h4>
+        <div>
+            <form action="" class="border-slate-400 border-2 rounded-lg" >
+                <input type="search" class="rounded-lg w-80" >
+                <button class=" text-white font-semibold rounded-md   p-2 hover:bg-secondary hover:text-white hover:border-0 "> Search</button>
+            </form>
+        </div>
+        <button  class="text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0">
+            Login
+        </button>
+    </nav>
+
+    <!-- Section div -->
+    <section class="flex justify-center items-center bg-white" >
+        <div class="container grid grid-flow-col grid-cols-4 p-20 gap-8">
+            <div class="mainpart col-span-3 rounded-lg border-x-2 border-slate-200 p-5  ">
+                {% block herocontent %}
+                <div class="container flex flex-col gap-6 border-2 border-slate-400 rounded-lg p-5 pl-10 font-semibold mb-6">
+                    <div class="head">
+                        <h3>Author</h3>
+                        <h4>Date || </h4>
+                    </div>
+                    <div class="body">
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. A minima labore vitae modi voluptatem. Porro magnam ad, consectetur culpa sint deleniti, excepturi nostrum sunt illo, quisquam blanditiis laudantium rem expedita!</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit provident nihil voluptatum quia architecto animi quis laudantium cum blanditiis, rerum molestias. Culpa fuga earum deleniti velit necessitatibus ipsam quisquam laboriosam!</p>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad ut quod voluptate a veniam beatae doloribus fugit doloremque est tempora. Illum, nostrum explicabo est consectetur minima sit quod dicta beatae.</p>
+                    </div>
+                    <hr class="text-slate-400">
+                    <hr class="text-slate-400">
+                    <div class="actions">
+                        <button>comment</button>
+                    </div>
+                </div>
+                <!-- here here here  -->
+                <div class="container flex flex-col gap-6 border-2 border-slate-400 rounded-lg p-5 pl-10 font-semibold">
+                    <div class="head">
+                        <h3>Author</h3>
+                        <h4>Date || </h4>
+                    </div>
+                    <div class="body">
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. A minima labore vitae modi voluptatem. Porro magnam ad, consectetur culpa sint deleniti, excepturi nostrum sunt illo, quisquam blanditiis laudantium rem expedita!</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit provident nihil voluptatum quia architecto animi quis laudantium cum blanditiis, rerum molestias. Culpa fuga earum deleniti velit necessitatibus ipsam quisquam laboriosam!</p>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad ut quod voluptate a veniam beatae doloribus fugit doloremque est tempora. Illum, nostrum explicabo est consectetur minima sit quod dicta beatae.</p>
+                    </div>
+                    <hr class="text-slate-400">
+                    <hr class="text-slate-400">
+                    <div class="actions">
+                        <button>comment</button>
+                    </div>
+                </div>
+                {% endblock herocontent %}
+
+            </div>
+       
+          <!-- the other part -->
+            <div class="fixedpart col-span-1  min-h-96 max-h-96 rounded-lg border-x-2 border-slate-200 p-5 ">
+               <div class="flex flex-col gap-3 justify-center items-center">
+                    <div class="flex justify-around gap-2 t p-2 rounded-md px-6 font-semibold w-60 h-20 items-center" >
+                        <img src="" alt="user image " class="rounded-full border-2 border-primary p-2 items-center">
+                        <div>
+                            <h2 class="font-bold" >Username</h2>
+                        </div>
+                    </div>
+                    <button class="text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60" >Update Profile</button>
+                    <button class="text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60 "  >Create Post</button>
+                    <button class= "text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60 "    >My posts</button>
+                    <button class="text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60 "  >Logout</button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </section>
+  
+
+</div>
+
+
+
+
+
+{% endblock content %}

@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from .models import Postform
 from .forms import Registrationform , Post
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,permission_required
 from django.contrib.auth import login,logout,authenticate
 
 
@@ -11,6 +11,13 @@ from django.contrib.auth import login,logout,authenticate
 @login_required(login_url='/login')
 def home(request):
     posts = Postform.objects.all()
+
+    if request.method == 'POST':
+        post_id = request.POST.get("post-id")
+        post = Postform.objects.filter(id=post_id).first()
+        if post and (post.author == request.user or request.user.has_perm('app.delete_Postform')):
+            post.delete()
+
     return render(request, 'app/home.html', {'posts': posts})
 
 
@@ -36,6 +43,7 @@ def signup(request):
 #create post view
 
 @login_required(login_url='/login')
+@permission_required("app.add_Postform", login_url="/login" , raise_exception=True)
 def createpost(request):
     if request.method == 'POST':
         form = Post(request.POST, request.FILES)

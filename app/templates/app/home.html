@@ -40,10 +40,17 @@
                         {% endif %}
                     </div>
                     <hr class="text-slate-400">
-                    <hr class="text-slate-400">
                     <div class="actions">
                         <button>comment</button>
                     </div>
+                    <hr class="text-slate-400">
+                    {% if request.user == post.author or perms.app.delete_Postform  %}
+                        <form action=""  method="post">
+                            {% csrf_token %}
+                            <button value="{{post.id}}" name="post-id">Delete</button>
+                        </form>
+                    {% endif %}
+                   
                 </div>
                 {% endfor %}
                 

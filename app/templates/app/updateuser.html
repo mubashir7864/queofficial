@@ -1,0 +1,32 @@
+{% extends "app/home.html" %}
+{% load static %}
+{% block title %}CreatePost{% endblock title %}
+{% block herocontent %}
+<form action="" method="post" class="border border-slate-400 p-5 rounded-md" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for=""  class="block" >profilepic</label>
+    {{imgform.as_p}}
+    <label for=""  class="block" >first_name</label>
+     <input type="text"  value="{{profileform.instance.first_name}}" name="first_name" >           
+    <label class="block" for="">last_name</label>
+    <input type="text"  value="{{profileform.instance.last_name}}" name="last_name" >  
+    <label for=""  class="block" >Email</label>
+    <input type="email"  value="{{profileform.instance.email}}" name='email'  > 
+    <button class="border px-6 py-4 rounded-md font-bold  border-white bg-secondary text-white flex mt-2 justify-center items-center  h-8 hover:translate-y-1 p-4" type="submit">Update Profile</button>
+
+    {% if imgform.errors or profileform.errors %}
+    <div class="text-red-500 font-semibold">
+        <p>There were errors in your submission:</p>
+        <ul class="max-w-[6rem] break-words" >
+            {% for field, errors in form.errors.items %}
+                <li  class=" max-w-xs " >{{ field }}: <br> {{ errors|join:", " }}</li>
+                <br>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+
+</form>
+
+{% endblock herocontent %}

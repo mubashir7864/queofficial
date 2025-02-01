@@ -23,12 +23,12 @@
     </nav>
 
     <!-- Section div -->
-    <section class="flex justify-center items-center bg-white" >
-        <div class="container grid grid-flow-col grid-cols-4 p-20 gap-8">
+    <section class="flex justify-center items-center " >
+        <div class="container grid grid-flow-col grid-cols-4 p-20 gap-8 ">
             <div class="mainpart col-span-3 rounded-lg border-x-2 border-slate-200 p-5  ">
                 {% block herocontent %}
                 {% for post in posts  %}
-                <div class="container flex flex-col gap-6 border-2 border-slate-400 rounded-lg p-5 pl-10 font-semibold mb-6">
+                <div class="container flex flex-col gap-6 border-2 border-slate-300 rounded-lg p-5 pl-10 font-semibold mb-6 bg-begg">
                     <div class="head">
                         <h3>{{post.author}}</h3>
                         <h4>{{post.created_at}} </h4>
@@ -45,10 +45,19 @@
                     </div>
                     <hr class="text-slate-400">
                     {% if request.user == post.author or perms.app.delete_Postform  %}
-                        <form action=""  method="post">
+                        <form action="delete"  method="post">
                             {% csrf_token %}
                             <button value="{{post.id}}" name="post-id">Delete</button>
                         </form>
+                    {% endif %}
+                    <hr>
+                    {% if request.user == post.author or perms.app.change_Postform  %}
+                        <button value="{{post.id}}" name="post-id">
+                           <a href="{% url 'updatepost' post.id %}">
+                            update
+                           </a>    
+                        </button>
+                        
                     {% endif %}
                    
                 </div>
@@ -60,22 +69,25 @@
           <!-- the other part -->
             <div class="fixedpart col-span-1  min-h-96 max-h-96 rounded-lg border-x-2 border-slate-200 p-5 ">
                <div class="flex flex-col gap-3 justify-center items-center">
-                    <div class="flex justify-around gap-2 t p-2 rounded-md px-6 font-semibold w-60 h-20 items-center" >
-                        <img src="" alt="user image " class="rounded-full border-2 border-primary p-2 items-center">
+                    <div class="flex justify-around gap-2 rounded-md px-6 font-semibold w-60 h-20 items-center" >
+                       
                         {% if user.is_authenticated %}
+                        <img width="80px" src="{{user.profile.image.url}}" alt="user image " class="rounded-full border-2 border-primary p-2 items-center">
                         <div>
                             <h2 class="font-bold underline" >  {{user.username}}</h2>
                         </div>
                         {% else %}
+                        <img src="" alt="user image " class="rounded-full border-2 border-primary p-2 items-center">
                         <div>
                             <h2 class="font-bold" >Username</h2>
                         </div>
                         {% endif %}
                     </div>
-                    <button class="text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60" >Update Profile</button>
+                    <div class="p-2" ></div>
+                    <button class="text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60" ><a href="/updateprofile">Update Profile</a></button>
                     <button class="text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60 "  > <a href="/createpost">Create Post</a></button>
-                    <button class= "text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60 "    >My posts</button>
-                    <button class="text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60 "  >Logout</button>
+                    <button class= "text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60 " > <a href="/myposts">My posts</a></button>
+                    <button class="text-white font-semibold rounded-md  p-2 px-6  bg-secondary hover:translate-y-0.5 hover:border-0 md:w-32 lg:w-60 "  ><a href="/home">Home</a></button>
                 </div>
             </div>
         </div>

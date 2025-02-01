@@ -13,6 +13,7 @@
             <label class="block" for="">Password</label>
             <input class="block" type="password" name="password" id="password">
             <button class="text-white font-semibold rounded-md  p-2 px-6 mt-2  bg-secondary hover:translate-y-0.5 hover:border-0"type="submit">Login</button>
+            <a href="{% url 'password_reset'  %}" class="text-blue-300 underline p-2">Forgot Password?</a>
             {% if form.errors %}
             <div class="text-red-500 font-semibold">
                 <p>There were errors in your submission:</p>

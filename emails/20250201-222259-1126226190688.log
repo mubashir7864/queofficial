@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: mub7864@gmail.com
+Date: Sat, 01 Feb 2025 16:52:59 -0000
+Message-ID: <173842877942.3740.3023689814864626388@LAPTOP-BL6N8KF8>
+
+
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/reset/Ng/ckkgub-02d64183371c72582dde9865a7439708/
+
+Your username, in case you’ve forgotten: muchi
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team
+
+
+
+-------------------------------------------------------------------------------

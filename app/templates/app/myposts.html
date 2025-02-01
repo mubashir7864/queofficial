@@ -1,0 +1,34 @@
+{% extends "app/home.html" %}
+{% block title %}myposts{% endblock title %}
+{% block herocontent %}
+<h1>My Posts</h1>
+{% for post in myposts  %}
+<div class="container flex flex-col gap-6 border-2 border-slate-400 rounded-lg p-5 pl-10 font-semibold mb-6">
+    <div class="head">
+        <h3>{{post.author}}</h3>
+        <h4>{{post.created_at}} </h4>
+    </div>
+    <div class="body">
+        <p>{{post.description}}</p>
+        {% if post.image %}
+        <img  width=400px  src="{{ post.image.url }}" alt="Post image"> <!-- Correct image source -->
+        {% endif %}
+    </div>
+    <hr class="text-slate-400">
+    <div class="actions">
+        <button>comment</button>
+    </div>
+    <hr class="text-slate-400">
+    {% if request.user == post.author or perms.app.delete_Postform  %}
+        <form action=""  method="post">
+            {% csrf_token %}
+            <button value="{{post.id}}" name="post-id">Delete</button>
+        </form>
+    {% endif %}
+   
+</div>
+
+
+{% endfor %}
+
+{% endblock herocontent %}

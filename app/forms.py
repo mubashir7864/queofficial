@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Postform, Profile
+from .models import Postform, Profile,Comments
 
 class Registrationform(UserCreationForm):
     first_name = forms.CharField(required=True)
@@ -20,6 +20,11 @@ class Post(forms.ModelForm):
         model = Postform
         fields = ['title', 'description', 'image']
 
+
+class commentform(forms.ModelForm):
+    class Meta:
+        model = Comments
+        fields = ['body']
 
 
 #update profiledetails

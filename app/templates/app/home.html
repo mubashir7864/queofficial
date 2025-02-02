@@ -90,6 +90,13 @@
                         <button type="submit" value="{{ post.id }}" name="post-id" class="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md shadow-sm transition duration-300">Delete</button>
                       </form>
                       {% endif %}
+
+                      <form action="" method="post" class="flex items-center">
+                        {% csrf_token %}
+                        <input type="hidden" name="comment-post" value="{{ post.id }}">
+                        <input type="text" name="comment-body" placeholder="comment here ....." >
+                        <button type="submit" value="{{ post.id }}" name="post-id" class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md shadow-sm transition duration-300">comment</button>
+                      </form>
                   
                       {% if request.user == post.author or perms.app.change_Postform %}
                       <a href="{% url 'updatepost' post.id %}">
@@ -97,6 +104,20 @@
                       </a>
                       {% endif %}
                     </div>
+
+                    <hr>
+                    {%  if not post.comments.all %}
+                    <p>there is no Comments yet</p>
+                    {% else %}
+                        <div>
+                        {% for comment in post.comments.all %}
+                            <p>{{comment.author}}</p>
+                            <p>{{comment.date_added}}</p>
+                            <p>{{comment.body}}</p>
+                            <hr>
+                        {% endfor %}
+                        </div>    
+                    {% endif %}        
                   </div>
                   
                 {% endfor %}

@@ -1,11 +1,13 @@
 from django.contrib import admin
+from .models import Postform,Profile,Comments
 
 # Register your models here.
 
 
 
-# admin.site.register()
-
+admin.site.register(Postform)
+admin.site.register(Profile)
+admin.site.register(Comments)
 
 # >>> from django.contrib.auth.models import Group, Permission, User
 # >>> from django.contrib.auth.contenttypes.models import ContentType

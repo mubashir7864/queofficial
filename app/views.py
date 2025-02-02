@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
-from .models import Postform, Profile
-from .forms import Registrationform , Post , ProfiledetailsUpdateForm, ProfileimageUpdateForm
+from .models import Postform, Profile, Comments
+from .forms import Registrationform , Post , ProfiledetailsUpdateForm, ProfileimageUpdateForm, commentform
 from django.contrib.auth.decorators import login_required,permission_required
 from django.contrib.auth.views import PasswordResetView
 from django.contrib.auth.models import Group
@@ -40,19 +40,29 @@ def home(request):
     users = User.objects.exclude(is_superuser = True)
     
 
-
-
-
     if request.method == 'POST':
         user_id = request.POST.get("user-id")
         post_id = request.POST.get("post-id")
 
-        
-        if post_id:
+           
+
+        if 'comment-post' in request.POST:
+            commentedpost = get_object_or_404(Postform, id= request.POST.get('comment-post'))
+            comment_body = request.POST.get('comment-body')
+            if comment_body:
+                comment = Comments(post = commentedpost, author = request.user, body = comment_body)
+                comment.save()
+                messages.success(request, "Comment added successfully")
+            else:
+                messages.error(request , "there was an error posting your comment")          
+
+        elif post_id:
             post = Postform.objects.filter(id=post_id).first()
             if post and (post.author == request.user or request.user.has_perm('app.delete_Postform')):
-                post.delete()       
-          
+                post.delete()
+
+
+
         elif 'ban-user' in request.POST:
             user = User.objects.get(id=user_id)
             

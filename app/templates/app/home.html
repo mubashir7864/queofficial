@@ -26,41 +26,79 @@
     <section class="flex justify-center items-center " >
         <div class="container grid grid-flow-col grid-cols-4 p-20 gap-8 ">
             <div class="mainpart col-span-3 rounded-lg border-x-2 border-slate-200 p-5  ">
+                {% if user.is_staff %}
+                <table class="min-w-full table-auto p-10 border-collapse">
+                    <thead class="bg-secondary text-white">
+                      <tr>
+                        <th class="px-6 py-3 text-left text-sm font-medium">Username</th>
+                        <th class="px-6 py-3 text-left text-sm font-medium">Email</th>
+                        <th class="px-6 py-3 text-left text-sm font-medium">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for eachuser in users %}
+                      <tr class="border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ eachuser.username }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-500">{{ eachuser.email }}</td>
+                        <form action="" method="post">
+                        <td class="px-6 py-4 text-sm flex justify-start gap-4">
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="delete-user" value="{{ eachuser.id }}">
+                                <button class="text-red-600 hover:text-white border border-red-600 hover:bg-red-600 px-4 py-2 rounded-md transition duration-300" value="{{eachuser.id}}" name="user-id" >Delete</button>
+                            </form>                                                 
+                          <form action="" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="ban-user" value="{{ eachuser.id }}">
+                          <button class="text-yellow-600 hover:text-white border border-yellow-600 hover:bg-yellow-600 px-4 py-2 rounded-md transition duration-300"  value="{{eachuser.id}}" name="user-id">Ban</button>
+                         </form>  
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                  <hr>
+                  <h1 class="flex text-3xl justify-center items-center font-bold underline p-5 " >
+                    Posts
+                  </h1>
+                {% endif %}
+
+
                 {% block herocontent %}
                 {% for post in posts  %}
-                <div class="container flex flex-col gap-6 border-2 border-slate-300 rounded-lg p-5 pl-10 font-semibold mb-6 bg-begg">
-                    <div class="head">
-                        <h3>{{post.author}}</h3>
-                        <h4>{{post.created_at}} </h4>
+                <div class="container flex flex-col gap-6 border-2 border-slate-300 rounded-lg p-6 bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 mb-6">
+                    <div class="head flex justify-between items-center mb-4">
+                      <h3 class="text-2xl font-semibold text-gray-900">{{ post.author }}</h3>
+                      <h4 class="text-sm text-gray-500">{{ post.created_at }}</h4>
                     </div>
-                    <div class="body">
-                        <p>{{post.description}}</p>
-                        {% if post.image %}
-                        <img  width=400px  src="{{ post.image.url }}" alt="Post image"> <!-- Correct image source -->
-                        {% endif %}
+                  
+                    <div class="body mb-4">
+                      <p class="text-lg text-gray-700">{{ post.description }}</p>
+                      {% if post.image %}
+                      <div class="mt-4">
+                        <img class="rounded-lg shadow-md" width="400" src="{{ post.image.url }}" alt="Post image">
+                      </div>
+                      {% endif %}
                     </div>
-                    <hr class="text-slate-400">
-                    <div class="actions">
-                        <button>comment</button>
+                  
+                    <hr class="border-slate-400 mb-4">
+                  
+                    <div class="actions flex justify-start gap-4 items-center">
+                      {% if request.user == post.author or perms.app.delete_Postform %}
+                      <form action="" method="post" class="flex items-center">
+                        {% csrf_token %}
+                        <button type="submit" value="{{ post.id }}" name="post-id" class="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md shadow-sm transition duration-300">Delete</button>
+                      </form>
+                      {% endif %}
+                  
+                      {% if request.user == post.author or perms.app.change_Postform %}
+                      <a href="{% url 'updatepost' post.id %}">
+                        <button class="text-white bg-primary hover:bg-primary px-4 py-2 rounded-md shadow-sm transition duration-300 ">Update</button>
+                      </a>
+                      {% endif %}
                     </div>
-                    <hr class="text-slate-400">
-                    {% if request.user == post.author or perms.app.delete_Postform  %}
-                        <form action="delete"  method="post">
-                            {% csrf_token %}
-                            <button value="{{post.id}}" name="post-id">Delete</button>
-                        </form>
-                    {% endif %}
-                    <hr>
-                    {% if request.user == post.author or perms.app.change_Postform  %}
-                        <button value="{{post.id}}" name="post-id">
-                           <a href="{% url 'updatepost' post.id %}">
-                            update
-                           </a>    
-                        </button>
-                        
-                    {% endif %}
-                   
-                </div>
+                  </div>
+                  
                 {% endfor %}
                 
                 {% endblock herocontent %}

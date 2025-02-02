@@ -2,14 +2,15 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from .models import Postform, Profile
 from .forms import Registrationform , Post , ProfiledetailsUpdateForm, ProfileimageUpdateForm
-from django.contrib.auth.decorators import login_required,permission_required,authenthicate
+from django.contrib.auth.decorators import login_required,permission_required
 from django.contrib.auth.views import PasswordResetView
+from django.contrib.auth.models import Group
 from django.urls import reverse
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import get_user_model
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 User = get_user_model()
 
@@ -30,20 +31,53 @@ class CustomPasswordResetView(PasswordResetView):
             pass  # Do nothing for invalid emails to avoid user enumeration attacks
         return super().form_valid(form)
 
-
+# //////////////
 # Create your views here.
 
 @login_required(login_url='/login')
 def home(request):
-    posts = Postform.objects.all()
+    posts = Postform.objects.all().order_by('-created_at')
+    users = User.objects.exclude(is_superuser = True)
+    
+
+
+
 
     if request.method == 'POST':
+        user_id = request.POST.get("user-id")
         post_id = request.POST.get("post-id")
-        post = Postform.objects.filter(id=post_id).first()
-        if post and (post.author == request.user or request.user.has_perm('app.delete_Postform')):
-            post.delete()
 
-    return render(request, 'app/home.html', {'posts': posts})
+        
+        if post_id:
+            post = Postform.objects.filter(id=post_id).first()
+            if post and (post.author == request.user or request.user.has_perm('app.delete_Postform')):
+                post.delete()       
+          
+        elif 'ban-user' in request.POST:
+            user = User.objects.get(id=user_id)
+            
+            if user and request.user.is_staff:
+                try:
+                    group, created = Group.objects.get_or_create(name='usersdefault')
+                    group.user_set.remove(user)
+                    messages.success(request, f"{user.username} has been banned.")
+                except:
+                    pass
+            else:
+                messages.error(request, "User not found.")
+        
+        # Delete User
+        elif 'delete-user' in request.POST:
+            user = User.objects.get(id=user_id)
+            if user and user != request.user:  # Ensure a user can't delete themselves
+                user.delete()
+                messages.success(request, "User deleted successfully.")
+            else:
+                messages.error(request, "You can't delete yourself or the user does not exist.")
+
+        return redirect('home') 
+
+    return render(request, 'app/home.html', {'posts': posts , 'users' : users, })
 
 
 
@@ -66,7 +100,7 @@ def signup(request):
 
 #create post view
 @login_required(login_url='/login')
-# @permission_required("app.add_Postform", login_url="/login" , raise_exception=True)
+@permission_required("app.add_postform", raise_exception=True)
 def createpost(request):
     if request.method == 'POST':
         form = Post(request.POST, request.FILES)
@@ -141,6 +175,7 @@ def mypost(request):
 
 
 @login_required(login_url='/login')
+@permission_required("app.change_postform", raise_exception=True)
 def updatepost(request, post_id):
     post = get_object_or_404(Postform, id=post_id) 
     

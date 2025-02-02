@@ -3,30 +3,49 @@
 {% block herocontent %}
 <h1>My Posts</h1>
 {% for post in myposts  %}
-<div class="container flex flex-col gap-6 border-2 border-slate-400 rounded-lg p-5 pl-10 font-semibold mb-6">
-    <div class="head">
-        <h3>{{post.author}}</h3>
-        <h4>{{post.created_at}} </h4>
+<div class="container flex flex-col gap-6 border-2 border-slate-300 rounded-lg p-6 bg-white shadow-lg">
+   
+    <div class="head mb-4">
+        <h3 class="text-2xl font-semibold text-gray-800">{{ post.author }}</h3>
+        <h4 class="text-sm text-gray-600">{{ post.created_at }}</h4>
     </div>
-    <div class="body">
-        <p>{{post.description}}</p>
+    
+
+    <div class="body mb-4">
+        <p class="text-lg text-gray-700">{{ post.description }}</p>
         {% if post.image %}
-        <img  width=400px  src="{{ post.image.url }}" alt="Post image"> <!-- Correct image source -->
+        <img src="{{ post.image.url }}" alt="Post image" class="mt-4 max-w-full rounded-lg shadow-md">
         {% endif %}
     </div>
-    <hr class="text-slate-400">
-    <div class="actions">
-        <button>comment</button>
-    </div>
-    <hr class="text-slate-400">
-    {% if request.user == post.author or perms.app.delete_Postform  %}
-        <form action=""  method="post">
-            {% csrf_token %}
-            <button value="{{post.id}}" name="post-id">Delete</button>
-        </form>
-    {% endif %}
+    
+ 
+    <hr class="border-t-2 border-slate-200">
+    
    
+    <div class="actions flex justif-start gap-4 items-center mt-4">
+        <button class="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 transition duration-300">
+            Comment
+        </button>
+        
+    
+        {% if request.user == post.author or perms.app.delete_Postform %}
+        <form action="" method="post" class="flex">
+            {% csrf_token %}
+            <button type="submit" class="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 transition duration-300">
+                Delete
+            </button>
+        </form>
+        {% endif %}
+        
+        
+        {% if request.user == post.author or perms.app.change_Postform %}
+        <a href="{% url 'updatepost' post.id %}" class="px-4 py-2 text-white bg-primary rounded-md hover:bg-primary transition duration-300">
+            Update
+        </a>
+        {% endif %}
+    </div>
 </div>
+
 
 
 {% endfor %}

@@ -30,6 +30,17 @@ class Profile(models.Model):
         return self.user.username
     
 
+
+class Comments(models.Model):
+    post = models.ForeignKey(Postform, related_name='comments', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+
+    
+
+
 # Signal to create Profile automatically when a User is created
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

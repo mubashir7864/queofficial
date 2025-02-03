@@ -1,0 +1,32 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block title %}Login Page{% endblock title %}
+
+{% block content %}
+<section class="h-screen flex items-center justify-center mt-auto bg-primary p-8">
+    <div class="flex flex-col justify-center items-center bg-begg h-auto px-10 p-4 py-6 border-2 border-white rounded-lg">
+        <p>password reset complete</p>
+        <a href="{% url 'login' %}"><button class="border px-6 py-4 rounded-md font-bold h-12 border-white bg-secondary text-white flex mt-2 justify-center items-center  h-8 hover:translate-y-1 p-4" type="submit">
+            You can now login
+        </button>
+        </a>
+    </div>
+
+</section>
+
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+<p>password reset complete</p>
+<a href="{% url 'login' %}">You can now login</a>

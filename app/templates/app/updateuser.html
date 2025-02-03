@@ -1,0 +1,49 @@
+{% extends "app/home.html" %}
+{% load static %}
+{% block title %}CreatePost{% endblock title %}
+{% block herocontent %}
+<form action="" method="post" class="border border-slate-400 p-5 rounded-md" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-6">
+        <label for="" class="block text-lg font-semibold text-gray-700">Profile Picture</label>
+        <div class="mt-2">
+            {{ imgform.as_p }}
+        </div>
+    </div>
+
+ 
+    <div class="mb-6">
+        <label for="first_name" class="block text-lg font-semibold text-gray-700">First Name</label>
+        <input type="text" value="{{ profileform.instance.first_name }}" name="first_name" class="w-full p-3 mt-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary" required>
+    </div>
+
+
+    <div class="mb-6">
+        <label for="last_name" class="block text-lg font-semibold text-gray-700">Last Name</label>
+        <input type="text" value="{{ profileform.instance.last_name }}" name="last_name" class="w-full p-3 mt-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary" required>
+    </div>
+
+
+    <div class="mb-6">
+        <label for="email" class="block text-lg font-semibold text-gray-700">Email</label>
+        <input type="email" value="{{ profileform.instance.email }}" name="email" class="w-full p-3 mt-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-secondary" required>
+    </div>
+
+    <button class="w-full bg-secondary text-white font-bold py-3 rounded-md shadow-md hover:bg-secondary-dark transition-all duration-300 transform hover:translate-y-1" type="submit">Update Profile</button>
+
+    {% if imgform.errors or profileform.errors %}
+    <div class="text-red-500 font-semibold">
+        <p>There were errors in your submission:</p>
+        <ul class="max-w-[6rem] break-words" >
+            {% for field, errors in form.errors.items %}
+                <li  class=" max-w-xs " >{{ field }}: <br> {{ errors|join:", " }}</li>
+                <br>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+
+</form>
+
+{% endblock herocontent %}
